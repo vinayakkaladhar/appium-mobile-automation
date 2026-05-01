@@ -1,50 +1,85 @@
 # Automated Functional Tests for Trust Wallet App
 
 ### Summary
-This repository contains the tests for the TrustWallet Android app, these tests are developed using Appium & Java
+This repository contains automated functional tests for the TrustWallet Android app, developed using Appium and Java with TestNG and Maven.
 
-### Getting Started
-- Install Node:
+### Tech Stack
+- **Java 11** — core programming language
+- **Appium** — mobile test automation framework
+- **TestNG** — test runner and assertions
+- **Maven 3.8.5** — dependency management and build tool
 
-    > brew install node
+### Project Structure
+```
+src/
+├── apps/android/          # Android APK under test
+├── main/java/
+│   ├── pages/             # Page Object classes (BasePage, CreateNewWalletPage)
+│   └── utils/             # Driver setup utilities (DriverUtils)
+└── test/java/tests/       # Test classes (BaseTest, CreateNewWalletTests)
+```
 
-- Install Appium:
+### Test Cases
+| Test Class | Test | Description |
+|---|---|---|
+| `CreateNewWalletTests` | `createNewWalletUsingBackupSkipOption` | Verifies user can create a new wallet by skipping the backup option, validates passcode mismatch error, sets up passcode, and confirms wallet creation |
 
-    > npm install -g appium
+---
 
-- Install below 2 external dependencies on your machine:
-  - **[Java 11](https://openjdk.java.net/projects/jdk/11/)** (as the core programming language)
-    - **[Maven 3.8.5](https://maven.apache.org/download.cgi)** (for dependency management)
-    - Follow this [document](https://www.oracle.com/in/java/technologies/downloads/) to install Java
-    - Follow this [document](https://maven.apache.org/install.html) to install Maven
-    - Follow this [document](https://www.jetbrains.com/help/idea/installation-guide.html#standalone) to install IntelliJ based on your OS. Community edition is good enough to work with this framework.
+## Setup
 
-- To test if the setup is correct.
-  - Open this project from IntelliJ/Eclipse/VSCode.
+### Prerequisites
+- **[Java 11](https://openjdk.java.net/projects/jdk/11/)**
+  ```
+  brew install openjdk@11
+  ```
+- **[Maven 3.8.5](https://maven.apache.org/download.cgi)**
+  ```
+  brew install maven
+  ```
+- **Node.js**
+  ```
+  brew install node
+  ```
+- **Appium**
+  ```
+  npm install -g appium
+  ```
+- **IDE** — [IntelliJ IDEA](https://www.jetbrains.com/help/idea/installation-guide.html#standalone) (Community edition is sufficient)
 
-## Pre setup
+### Android / iOS Setup
+- [Common setup](https://automationhacks.io/slides/2021/appium-conf/hello-appium-writing-your-first-tests/04-common-libraries/)
+- [Android setup](https://automationhacks.io/slides/2021/appium-conf/hello-appium-writing-your-first-tests/05-setup-for-android/)
+- [iOS setup](https://automationhacks.io/slides/2021/appium-conf/hello-appium-writing-your-first-tests/09-setup-for-ios/)
 
-- Follow setup steps for:
-  - [Common](https://automationhacks.io/slides/2021/appium-conf/hello-appium-writing-your-first-tests/04-common-libraries/)
-  - [Android](https://automationhacks.io/slides/2021/appium-conf/hello-appium-writing-your-first-tests/05-setup-for-android/)
-  - [iOS](https://automationhacks.io/slides/2021/appium-conf/hello-appium-writing-your-first-tests/09-setup-for-ios/)
+### Device Configuration
+Start an Android emulator matching these capabilities:
 
-Start an android emulator based on these capabilities
+```java
+capabilities.setCapability("platformName", "android");
+capabilities.setCapability("platformVersion", "14");
+capabilities.setCapability("deviceName", "Pixel 8");
+```
 
-    capabilities.setCapability("platformName", "android");
-    capabilities.setCapability("platformVersion", "14");
-    capabilities.setCapability("deviceName", "Pixel 8");
+---
 
-## Running tests
+## Running Tests
 
-    > mvn clean test -Dtests=CreateNewWalletTests
+Run a specific test class:
+```
+mvn clean test -Dtests=CreateNewWalletTests
+```
+
+Run the full suite:
+```
+mvn clean test
+```
+
+---
 
 ## Reports
 
-> To find each test class report
+After a test run, reports are generated under `target/surefire-reports/` (excluded from version control).
 
-- Navigate to target/surefire-reports/
-
-> To find entire suite report
-
-- Navigate to target/emailable-report.html
+- **Per-class report:** `target/surefire-reports/<ClassName>/`
+- **Full suite report:** `target/surefire-reports/emailable-report.html`
